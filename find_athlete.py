@@ -13,7 +13,7 @@ session = Sessions()
 
 
 class Athletes(Base):
-	"""Описывает структуру таблицы athletes для хранения записей"""
+	"""Описывает структуру таблицы athletes для хранения записей."""
 	__tablename__ = "athelete"
 	id = sa.Column(sa.INTEGER, primary_key=True)
 	age = sa.Column(sa.INTEGER)
