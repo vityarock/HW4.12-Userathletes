@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import uuid
 import datetime
 import sqlalchemy as sa
 from sqlalchemy.orm import sessionmaker
@@ -10,27 +9,22 @@ Base = declarative_base()
 class Users(Base):
 	"""Описывает структуру таблицы athletes для хранения записей"""
 	__tablename__ = "user"
-	id = sa.Column(sa.INTEGER, primary_key=True)
-	birthdate = sa.Column(sa.TEXT)
-	gender = sa.Column(sa.TEXT)
+	id = sa.Column(sa.Integer, primary_key=True)
+	birthdate = sa.Column(sa.Text)
+	gender = sa.Column(sa.Text)
 	height = sa.Column(sa.REAL)
-	first_name = sa.Column(sa.TEXT)
-	last_name = sa.Column(sa.TEXT)
-	email = sa.Column(sa.TEXT)
+	first_name = sa.Column(sa.Text)
+	last_name = sa.Column(sa.Text)
+	email = sa.Column(sa.Text)
+	def __str__(self):
+		return self.first_name
 	
-	
-engine = sa.create_engine(DB_PATH)
-# создаем фабрику сессию
-Sessions = sessionmaker(engine)
-# cоздаем сессию
-
 def request_data():
     """
     Запрашивает у пользователя данные и добавляет их в список users
     """
-    # выводим приветствие
     print("Привет! Программа найдёт похожего на вас спортсмена")
-    ("Пожалуйста, впишите ваши данные")
+    print("Пожалуйста, впишите ваши данные")
     # запрашиваем у пользователя данные
     first_name = input("Ваше имя: ")
     last_name = input("фамилия: ")
@@ -38,11 +32,8 @@ def request_data():
     gender = input("ваш пол ( Male / Female )" )
     height = input("Рост (метры.сантиметры) ")
     email = input("e-mail: ")
-    # генерируем идентификатор пользователя и сохраняем его строковое представление
-    user_id = str(uuid.uuid4())
-    # создаем нового пользователя
-    user = User(
-        id=user_id,
+      # создаем нового пользователя
+    user = Users(
         first_name=first_name,
         last_name=last_name,
         gender = gender,
@@ -50,14 +41,18 @@ def request_data():
         height = height,
         email=email
     )
-    # возвращаем созданного пользователя
+        # возвращаем созданного пользователя  
     return user
 
 def main():
+	engine = sa.create_engine(DB_PATH)
+	Sessions = sessionmaker(engine)
 	session = Sessions()
-
-	users = session.query(Users).all()
+	user = request_data()
+	session.add(user)
+	session.commit()
+	print("Ваш ID: ", user.id)
 
 
 if __name__ == "__main__":
-    main()
+	main()
