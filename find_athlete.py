@@ -70,7 +70,7 @@ def find_height_atlet(user_id):
 
 
 def find_bithday_atlet(user_id):
-	"""Находит по ID пользователя, ближайшего к нему атлета по дате рождения, выводит сообщение"""
+	"""Находит по ID пользователя, ближайшего к нему атлета по дате рождения, выводит сообщение."""
 	query_users = session.query(Users.birthdate).filter(Users.id == user_id)
 	user_birthdate_str = query_users[0][0]
 	user_birthdate = datetime.datetime.strptime(user_birthdate_str, "%Y-%m-%d").date()
